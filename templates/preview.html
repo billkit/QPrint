@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>扫描预览</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 1em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        embed, img {
+            display: block;
+            margin: auto;
+            max-width: 100%;
+            height: auto;
+        }
+        p {
+            text-align: center;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            font-size: 1em;
+            padding: 0.6em 1em;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: inline-block;
+            margin-top: 1em;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>扫描完成</h1>
+
+    {% if filename.endswith('.pdf') %}
+        <embed src="{{ url_for('serve_file', filename=filename) }}" width="100%" height="600" type="application/pdf">
+    {% else %}
+        <img src="{{ url_for('serve_file', filename=filename) }}">
+    {% endif %}
+
+    <p>
+        <a href="{{ url_for('download_and_delete', filename=filename) }}">
+            <button>下载扫描文件</button>
+        </a>
+    </p>
+
+    <p><a href="/">← 返回首页</a></p>
+</div>
+</body>
+</html>
