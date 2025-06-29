@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>自助打印与扫描</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 1em;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-bottom: 1.5em;
+        }
+        input[type="file"], select, button {
+            width: 100%;
+            padding: 0.6em;
+            margin: 0.5em 0;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        ul {
+            padding-left: 1em;
+        }
+        li {
+            margin-bottom: 0.5em;
+            word-break: break-all;
+        }
+        a {
+            margin-left: 0.5em;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        hr {
+            margin: 2em 0;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>自助打印</h2>
+    <h1></h1>
+    上传文件
+    <form method="post" enctype="multipart/form-data" action="/upload">
+        <input type="file" name="file" required>
+        
+        <h1></h1>
+        选择打印机
+        <select name="printer">
+            {% for p in printers %}
+                <option value="{{p}}">{{p}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">开始打印</button>
+    </form>
+
+    <h3>上传历史</h3>
+    <ul>
+        {% for f in files %}
+            <li>
+                {{ f }}
+                <a href="/uploads/{{ f }}" target="_blank">查看</a>
+                <a href="/delete/{{ f }}">删除</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>自助扫描</h2>
+    <form action="/scan" method="get">
+        <label>输出格式：</label>
+        <select name="format">
+            <option value="pdf">PDF</option>
+            <option value="png">图像</option>
+        </select>
+        <label>DPI：</label>
+        <select name="dpi">
+            <option value="150">150</option>
+            <option value="300" selected>300</option>
+            <option value="600">600</option>
+        </select>
+        <label>色彩：</label>
+        <select name="bitdepth">
+            <option value="color">彩色</option>
+            <option value="gray">灰度</option>
+            <option value="bw">黑白</option>
+        </select>
+        <button type="submit">扫描</button>
+    </form>
+</div>
+</body>
+</html>
